@@ -274,7 +274,7 @@ export function SyntaxCheatsheet({ compact = false }: { compact?: boolean }) {
 function EmptyBoard({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="mx-auto max-w-2xl rounded-2xl border border-dashed border-line bg-panel/60 px-6 py-10">
-      <h2 className="text-center font-hand text-2xl text-ink">A blank board</h2>
+      <h2 className="text-center text-lg font-semibold tracking-tight text-ink">A blank board</h2>
       <p className="mx-auto mt-1.5 max-w-md text-center text-sm text-ink-soft">
         Stickies are written in plain text. Type a marker at the start of a line and it turns into a
         real element as you type.

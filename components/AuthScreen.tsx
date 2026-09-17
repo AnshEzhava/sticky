@@ -93,7 +93,7 @@ export function AuthScreen({
         aria-hidden="true"
         className="note paper-yellow absolute -top-6 -left-10 hidden h-40 w-40 rotate-[-11deg] p-4 opacity-70 lg:block"
       >
-        <p className="font-hand text-xl">Ship on Friday</p>
+        <p className="font-semibold text-base">Ship on Friday</p>
         <p className="mt-2 text-xs">
           [] draft the copy
           <br />
@@ -104,7 +104,7 @@ export function AuthScreen({
         aria-hidden="true"
         className="note paper-sky absolute -right-8 -bottom-8 hidden h-36 w-44 rotate-[8deg] p-4 opacity-70 lg:block"
       >
-        <p className="font-hand text-xl">Client call</p>
+        <p className="font-semibold text-base">Client call</p>
         <p className="mt-2 text-xs">
           1. scope
           <br />
@@ -114,7 +114,7 @@ export function AuthScreen({
 
       <div className="relative w-full max-w-md">
         <div className="mb-5 text-center">
-          <h1 className="font-hand text-5xl leading-none text-ink">Sticky</h1>
+          <h1 className="font-semibold tracking-tight text-4xl text-ink">Sticky</h1>
           <p className="mt-2 text-sm text-ink-soft">
             Notes with checkboxes, titles and numbered lists. No database, no server - your boards
             are plain YAML in this browser.

@@ -62,7 +62,7 @@ export function Sidebar({
   return (
     <aside className="flex h-full w-72 shrink-0 flex-col border-r border-line bg-panel">
       <div className="flex items-center gap-2 px-4 pt-4 pb-3">
-        <span className="font-hand text-[1.7rem] leading-none text-ink">Sticky</span>
+        <span className="font-semibold text-lg leading-none text-ink">Sticky</span>
         <span className="rounded-full border border-line px-1.5 py-0.5 font-mono text-[0.625rem] text-ink-faint">
           .yml
         </span>

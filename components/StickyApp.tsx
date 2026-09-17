@@ -17,7 +17,7 @@ export function StickyApp() {
     return (
       <div className="desk grid min-h-dvh place-items-center">
         <div className="text-center">
-          <p className="font-hand text-4xl text-ink">Sticky</p>
+          <p className="text-lg font-semibold text-ink">Sticky</p>
           <p className="mt-2 text-xs text-ink-soft">Opening your boards...</p>
         </div>
       </div>
@@ -67,7 +67,7 @@ export function StickyApp() {
       <main className="desk flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-2 border-b border-line px-3 py-2 lg:hidden">
           <IconButton label="Open menu" icon={<Icons.Menu />} onClick={() => setDrawer(true)} />
-          <span className="font-hand text-2xl leading-none text-ink">Sticky</span>
+          <span className="font-semibold text-lg leading-none text-ink">Sticky</span>
           <span className="flex-1" />
           <span className="text-[0.6875rem] text-ink-faint">@{store.account.username}</span>
         </div>
@@ -77,7 +77,7 @@ export function StickyApp() {
         ) : (
           <div className="grid flex-1 place-items-center p-6">
             <div className="w-full max-w-md rounded-2xl border border-dashed border-line bg-panel/70 p-6 text-center">
-              <h2 className="font-hand text-2xl text-ink">No clients yet</h2>
+              <h2 className="text-lg font-semibold text-ink">No clients yet</h2>
               <p className="mt-1.5 text-sm text-ink-soft">
                 A client is a board. Add one and start pinning stickies to it.
               </p>

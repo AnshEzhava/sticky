@@ -5,7 +5,6 @@
 @theme inline {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-hand: var(--font-handwriting), "Bradley Hand", "Segoe Print", cursive;
 
   --color-desk: var(--desk);
   --color-panel: var(--panel);
@@ -215,10 +214,11 @@
   }
 
   .note-title {
-    font-family: var(--font-hand);
-    font-size: 1.5rem;
-    line-height: 1.15;
-    letter-spacing: 0.01em;
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     background: transparent;
     border: none;
     width: 100%;
