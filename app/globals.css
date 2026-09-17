@@ -186,7 +186,6 @@
   }
   .dark .note {
     background-image: none;
-    border: 1px solid color-mix(in srgb, var(--paper-edge) 55%, transparent);
     box-shadow: var(--shadow-note);
   }
   .dark .note:hover,
