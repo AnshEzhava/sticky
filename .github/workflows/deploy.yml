@@ -84,6 +84,8 @@ jobs:
             # context that new files under /opt inherit by default.
             chcon -R -t httpd_sys_content_t "$BASE/incoming"
             chcon -t httpd_sys_content_t "$BASE"
+            # nginx walks through releases/ to reach the symlink target.
+            chcon -t httpd_sys_content_t "$BASE/releases"
 
             mkdir -p "$BASE/releases"
             mv "$BASE/incoming" "$RELEASE"

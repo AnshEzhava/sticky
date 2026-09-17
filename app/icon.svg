@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="0.25" y2="1">
+      <stop offset="0" stop-color="#fff7bd"/>
+      <stop offset="1" stop-color="#f4da5f"/>
+    </linearGradient>
+    <linearGradient id="flap" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dcb63a"/>
+      <stop offset="1" stop-color="#b8931f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- soft drop shadow -->
+  <path d="M9 10 H59 V46 L46 59 H9 Z" fill="#2f2606" opacity="0.22"/>
+
+  <!-- the note, with its bottom right corner peeled back -->
+  <path d="M6 6 H58 V44 L44 58 H6 Z" fill="url(#paper)"/>
+  <path d="M44 58 L58 44 L44 44 Z" fill="url(#flap)"/>
+
+  <!-- a tick, because ticking things off is the whole point -->
+  <path d="M19 33.5 L27.5 42 L45 21.5" fill="none" stroke="#4a3c05"
+        stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

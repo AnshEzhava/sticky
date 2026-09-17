@@ -139,6 +139,51 @@ sudo certbot --nginx -d sticky.devbx.in
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
+## Pointing the subdomain at it
+
+`sticky.devbx.in` already resolves to `49.143.252.45`, and the vhost is
+installed at `/etc/nginx/conf.d/sticky.conf`:
+
+```nginx
+server {
+    listen 80;
+    server_name sticky.devbx.in;
+
+    root /opt/sticky/current;
+    index index.html;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+
+    location /_next/static/ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        access_log off;
+    }
+
+    error_page 404 /404.html;
+
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript
+               text/xml application/xml image/svg+xml;
+    gzip_min_length 256;
+}
+```
+
+The remaining steps need root, because `i2icore` and `deploy` are both
+restricted to a small sudo allowlist that does not cover nginx or certbot:
+
+```bash
+sudo nginx -t                            # parse the whole config first
+sudo systemctl reload nginx              # go live on http
+sudo certbot --nginx -d sticky.devbx.in  # adds the 443 block and the redirect
+```
+
+certbot rewrites `sticky.conf` in place, adding the `listen 443 ssl` lines and
+a port 80 redirect, exactly as it did for the other vhosts on this box.
+
 ## Rolling back
 
 ```bash
