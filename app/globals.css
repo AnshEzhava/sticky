@@ -56,12 +56,12 @@
 .paper-lilac  { --paper: #e4daff; --paper-edge: #c8b8f8; --paper-ink: #35215f; }
 .paper-peach  { --paper: #ffe1c5; --paper-edge: #f7c59b; --paper-ink: #5b2f0f; }
 
-.dark .paper-yellow { --paper: #47401d; --paper-edge: #5d5426; --paper-ink: #f7edbe; }
-.dark .paper-rose   { --paper: #45222c; --paper-edge: #5c2f3b; --paper-ink: #ffd9e2; }
-.dark .paper-sky    { --paper: #1e3448; --paper-edge: #29455e; --paper-ink: #d5e9ff; }
-.dark .paper-mint   { --paper: #1c3a2c; --paper-edge: #265040; --paper-ink: #d3f2de; }
-.dark .paper-lilac  { --paper: #2c2545; --paper-edge: #3b3159; --paper-ink: #e6dcff; }
-.dark .paper-peach  { --paper: #452c1a; --paper-edge: #5c3b23; --paper-ink: #ffe2c6; }
+.dark .paper-yellow { --paper: #4d4522; --paper-edge: #6a5e2c; --paper-ink: #f9f0c4; }
+.dark .paper-rose   { --paper: #4a2630; --paper-edge: #6b3946; --paper-ink: #ffdde5; }
+.dark .paper-sky    { --paper: #213a51; --paper-edge: #2f5270; --paper-ink: #d9ecff; }
+.dark .paper-mint   { --paper: #1f4132; --paper-edge: #2b5a47; --paper-ink: #d5f5e0; }
+.dark .paper-lilac  { --paper: #31294c; --paper-edge: #443767; --paper-ink: #e8dfff; }
+.dark .paper-peach  { --paper: #4b301c; --paper-edge: #68432a; --paper-ink: #ffe4c9; }
 
 /* ----------------------------------------------------------------- base -- */
 
@@ -186,8 +186,14 @@
   }
   .dark .note {
     background-image:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 46%),
-      radial-gradient(120% 70% at 85% 0%, rgba(255, 255, 255, 0.05), transparent 62%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02) 46%),
+      radial-gradient(120% 70% at 85% 0%, rgba(255, 255, 255, 0.13), transparent 62%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.32), transparent 55%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), var(--shadow-note);
+  }
+  .dark .note:hover,
+  .dark .note:focus-within {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), var(--shadow-lift);
   }
   .note:hover,
   .note:focus-within {
