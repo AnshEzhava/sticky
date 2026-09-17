@@ -1,26 +1,353 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-hand: var(--font-handwriting), "Bradley Hand", "Segoe Print", cursive;
+
+  --color-desk: var(--desk);
+  --color-panel: var(--panel);
+  --color-panel-soft: var(--panel-soft);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --desk: #e9e2d6;
+  --desk-dot: rgba(120, 100, 70, 0.16);
+  --panel: #fffdf8;
+  --panel-soft: #f6f1e7;
+  --line: rgba(72, 58, 38, 0.14);
+  --ink: #2a251d;
+  --ink-soft: #6c6252;
+  --ink-faint: #9c9081;
+  --accent: #d4552f;
+  --accent-soft: rgba(212, 85, 47, 0.12);
+  --shadow-note: 0 1px 1px rgba(72, 58, 38, 0.16), 0 10px 20px -12px rgba(72, 58, 38, 0.55);
+  --shadow-lift: 0 2px 3px rgba(72, 58, 38, 0.14), 0 22px 38px -18px rgba(72, 58, 38, 0.5);
+}
+
+.dark {
+  --desk: #191a1f;
+  --desk-dot: rgba(255, 255, 255, 0.05);
+  --panel: #212329;
+  --panel-soft: #1a1c21;
+  --line: rgba(255, 255, 255, 0.1);
+  --ink: #eceaf5;
+  --ink-soft: #a5a3b0;
+  --ink-faint: #75737f;
+  --accent: #ff8a5c;
+  --accent-soft: rgba(255, 138, 92, 0.16);
+  --shadow-note: 0 1px 1px rgba(0, 0, 0, 0.5), 0 12px 22px -14px rgba(0, 0, 0, 0.85);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 26px 44px -20px rgba(0, 0, 0, 0.9);
+}
+
+/* ---------------------------------------------------------------- paper -- */
+
+.paper-yellow { --paper: #ffef9d; --paper-edge: #f0d968; --paper-ink: #4a3c05; }
+.paper-rose   { --paper: #ffd7de; --paper-edge: #f4b3c1; --paper-ink: #5c1c2b; }
+.paper-sky    { --paper: #d3e7ff; --paper-edge: #aecff3; --paper-ink: #16395c; }
+.paper-mint   { --paper: #d0f0da; --paper-edge: #a7dfba; --paper-ink: #123f2a; }
+.paper-lilac  { --paper: #e4daff; --paper-edge: #c8b8f8; --paper-ink: #35215f; }
+.paper-peach  { --paper: #ffe1c5; --paper-edge: #f7c59b; --paper-ink: #5b2f0f; }
+
+.dark .paper-yellow { --paper: #47401d; --paper-edge: #5d5426; --paper-ink: #f7edbe; }
+.dark .paper-rose   { --paper: #45222c; --paper-edge: #5c2f3b; --paper-ink: #ffd9e2; }
+.dark .paper-sky    { --paper: #1e3448; --paper-edge: #29455e; --paper-ink: #d5e9ff; }
+.dark .paper-mint   { --paper: #1c3a2c; --paper-edge: #265040; --paper-ink: #d3f2de; }
+.dark .paper-lilac  { --paper: #2c2545; --paper-edge: #3b3159; --paper-ink: #e6dcff; }
+.dark .paper-peach  { --paper: #452c1a; --paper-edge: #5c3b23; --paper-ink: #ffe2c6; }
+
+/* ----------------------------------------------------------------- base -- */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--desk);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    overscroll-behavior-y: none;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ------------------------------------------------------------- surfaces -- */
+
+@layer components {
+  .desk {
+    background-color: var(--desk);
+    background-image: radial-gradient(circle at 1px 1px, var(--desk-dot) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  .panel {
+    background: var(--panel);
+    border-color: var(--line);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 0.6rem;
+    border: 1px solid var(--line);
+    background: var(--panel-soft);
+    padding: 0.55rem 0.75rem;
+    font-size: 0.875rem;
+    transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  }
+  .field::placeholder { color: var(--ink-faint); }
+  .field:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--panel);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border-radius: 0.6rem;
+    font-size: 0.8125rem;
+    font-weight: 550;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 120ms ease, background 120ms ease, border-color 120ms ease, opacity 120ms ease;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.6); }
+  .btn-primary:hover:not(:disabled) { filter: brightness(1.06); }
+
+  .btn-ghost { background: transparent; color: var(--ink-soft); border-color: var(--line); }
+  .btn-ghost:hover:not(:disabled) { background: var(--panel-soft); color: var(--ink); }
+
+  .btn-quiet { background: var(--panel-soft); color: var(--ink); border-color: var(--line); }
+  .btn-quiet:hover:not(:disabled) { border-color: var(--ink-faint); }
+
+  .btn-danger { background: transparent; color: #c0392b; border-color: rgba(192, 57, 43, 0.35); }
+  .dark .btn-danger { color: #ff8f7a; border-color: rgba(255, 143, 122, 0.35); }
+  .btn-danger:hover:not(:disabled) { background: rgba(192, 57, 43, 0.1); }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.85rem;
+    width: 1.85rem;
+    border-radius: 0.5rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease;
+  }
+  .icon-btn:hover { background: rgba(127, 127, 127, 0.16); color: var(--ink); }
+}
+
+/* ---------------------------------------------------------------- notes -- */
+
+@layer components {
+  .note {
+    position: relative;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 46%),
+      radial-gradient(120% 70% at 85% 0%, rgba(255, 255, 255, 0.26), transparent 62%);
+    color: var(--paper-ink);
+    border-radius: 3px 3px 7px 7px;
+    box-shadow: var(--shadow-note);
+    transition: box-shadow 180ms ease, transform 180ms ease;
+  }
+  .dark .note {
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 46%),
+      radial-gradient(120% 70% at 85% 0%, rgba(255, 255, 255, 0.05), transparent 62%);
+  }
+  .note:hover,
+  .note:focus-within {
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* Pinned notes get a strip of tape. */
+  .note-taped::before {
+    content: "";
+    position: absolute;
+    top: -0.6rem;
+    left: 50%;
+    height: 1.15rem;
+    width: 4.6rem;
+    transform: translateX(-50%) rotate(-1.6deg);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42));
+    border-left: 1px dashed rgba(0, 0, 0, 0.07);
+    border-right: 1px dashed rgba(0, 0, 0, 0.07);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
+    pointer-events: none;
+  }
+  .dark .note-taped::before {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.07));
+  }
+
+  .note-title {
+    font-family: var(--font-hand);
+    font-size: 1.5rem;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    background: transparent;
+    border: none;
+    width: 100%;
+    padding: 0;
+  }
+  .note-title::placeholder { color: color-mix(in srgb, var(--paper-ink) 38%, transparent); }
+  .note-title:focus { outline: none; }
+
+  .note-text,
+  .note-mirror {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    letter-spacing: inherit;
+    word-break: break-word;
+  }
+
+  .note-text {
+    background: transparent;
+    border: none;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    padding: 0;
+    white-space: pre-wrap;
+  }
+
+  /* Invisible twin used to measure where a finished line of text ends. */
+  .note-mirror {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    white-space: pre;
+    pointer-events: none;
+  }
+  .note-text:focus { outline: none; }
+  .note-text::placeholder { color: color-mix(in srgb, var(--paper-ink) 40%, transparent); }
+
+  .note-hint {
+    color: color-mix(in srgb, var(--paper-ink) 55%, transparent);
+  }
+
+  /* The visual box stays small; the tap target around it does not. */
+  .check-hit {
+    position: relative;
+  }
+  .check-hit::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+  }
+
+  /* Touch devices have no hover, so row controls stay visible there. */
+  @media (pointer: coarse) {
+    .divider-remove {
+      opacity: 0.65;
+    }
+  }
+
+  /* The completion dash that sweeps through a finished task. */
+  .task-dash {
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    height: 1.5px;
+    border-radius: 2px;
+    background: currentColor;
+    opacity: 0.6;
+    transform-origin: left center;
+    animation: dash-draw 380ms cubic-bezier(0.22, 0.9, 0.24, 1) both;
+    pointer-events: none;
+  }
+
+  .task-done .note-text {
+    color: color-mix(in srgb, var(--paper-ink) 62%, transparent);
+  }
+
+  @keyframes dash-draw {
+    from { transform: scaleX(0); opacity: 0; }
+    40%  { opacity: 0.6; }
+    to   { transform: scaleX(1); opacity: 0.6; }
+  }
+
+  @keyframes pop-in {
+    0%   { transform: scale(0.4); opacity: 0; }
+    60%  { transform: scale(1.12); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .check-pop { animation: pop-in 260ms cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+
+  @keyframes note-in {
+    from { transform: translateY(8px) scale(0.98); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+  }
+  .note-in { animation: note-in 220ms ease both; }
+
+  /* Sticky notes stack in balanced columns and reflow as they grow. */
+  .board-grid {
+    column-gap: 1.15rem;
+  }
+  .board-slot {
+    break-inside: avoid;
+    margin: 0 0 1.15rem;
+    display: block;
+  }
+  @media (min-width: 640px) { .board-grid { columns: 2; } }
+  @media (min-width: 1080px) { .board-grid { columns: 3; } }
+  @media (min-width: 1560px) { .board-grid { columns: 4; } }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+
+  .thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+  .thin-scroll::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 8px;
+  }
+  .thin-scroll::-webkit-scrollbar-track { background: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .task-dash,
+  .check-pop,
+  .note-in {
+    animation-duration: 1ms !important;
+  }
+  * {
+    transition-duration: 60ms !important;
+  }
 }

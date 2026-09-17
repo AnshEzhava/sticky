@@ -1,0 +1,100 @@
+name: Deploy Sticky
+
+# Sticky is a static site: the build output is plain HTML/CSS/JS, so a deploy is
+# just "upload the folder and point nginx at it". Releases are staged, relabelled
+# for SELinux, then promoted with an atomic symlink swap, so the live site is
+# never empty and a failed upload never reaches production.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Two pushes in quick succession must not fight over the staging directory.
+concurrency:
+  group: deploy-sticky
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production
+        run: npm run build
+
+      - name: Check the export
+        run: |
+          test -f out/index.html
+          test -d out/_next
+          du -sh out
+
+      # 1. A clean staging directory to upload into.
+      - name: Prepare staging directory
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            rm -rf /opt/sticky/incoming
+            mkdir -p /opt/sticky/incoming
+
+      # 2. Upload the export. strip_components drops the leading "out/".
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "out/*"
+          target: "/opt/sticky/incoming/"
+          strip_components: 1
+          overwrite: true
+
+      # 3. Relabel, promote, and switch the live symlink.
+      - name: Activate release
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -euo pipefail
+
+            BASE=/opt/sticky
+            STAMP=$(date -u +%Y%m%d-%H%M%S)
+            RELEASE="$BASE/releases/$STAMP"
+
+            # Never promote a half finished upload.
+            test -f "$BASE/incoming/index.html"
+            test -d "$BASE/incoming/_next"
+
+            # nginx runs in the httpd_t domain, which cannot read the usr_t
+            # context that new files under /opt inherit by default.
+            chcon -R -t httpd_sys_content_t "$BASE/incoming"
+            chcon -t httpd_sys_content_t "$BASE"
+
+            mkdir -p "$BASE/releases"
+            mv "$BASE/incoming" "$RELEASE"
+
+            # Atomic swap: the old release stays live until this instant.
+            ln -sfn "$RELEASE" "$BASE/current.new"
+            chcon -h -t httpd_sys_content_t "$BASE/current.new" 2>/dev/null || true
+            mv -T "$BASE/current.new" "$BASE/current"
+
+            # Keep the last five releases around for instant rollback.
+            ls -1dt "$BASE"/releases/*/ 2>/dev/null | tail -n +6 | xargs -r rm -rf || true
+
+            echo "live release: $RELEASE"
+            ls -la "$BASE"

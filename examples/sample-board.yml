@@ -1,0 +1,72 @@
+# An example client board for Sticky.
+#
+# Open any board, press the </> button, choose the Import tab and drop this
+# file in (or paste it) to get a working board you can edit straight away.
+#
+#   [] an open checkbox        [x] a finished one
+#   1. a numbered line         #    a heading
+#   - a bullet                 >    a quote
+#   --- a rule                 two leading spaces indent a line
+id: cli_1o56631m1039
+name: Acme Studio
+color: yellow
+stickies:
+  - id: stk_5e403a35332x
+    title: Launch checklist
+    body: |-
+      # Ship v1
+      [] Draft the announcement
+      [] Record a 20 second demo
+      [x] Book the domain
+      [x] Pick the palette
+      1. Write the landing copy
+      2. Design the hero shot
+        1. Crop the screenshots
+        2. Export at 2x
+    color: yellow
+    pinned: true
+    createdAt: 2026-09-17T13:01:16.323Z
+    updatedAt: 2026-09-17T13:01:16.323Z
+  - id: stk_3n5d2x296n0o
+    title: Client call
+    body: |-
+      > "We need it live before the trade show."
+      # Decisions
+      [] Send the revised scope
+      [] Confirm the budget
+      # Follow-ups
+      1. Ping their designer
+      2. Share the roadmap
+    color: sky
+    pinned: false
+    createdAt: 2026-09-17T13:01:16.325Z
+    updatedAt: 2026-09-17T13:01:16.325Z
+  - id: stk_3q3j6t5p6a5h
+    title: Sprint 12
+    body: |-
+      # In progress
+      [] Grid reflow on resize
+      [] YAML import
+      # Done
+      [x] Checkbox syntax
+      [x] Account switching
+      ---
+      Aim: ship on Friday
+    color: mint
+    pinned: false
+    createdAt: 2026-09-17T13:01:16.325Z
+    updatedAt: 2026-09-17T13:01:16.325Z
+  - id: stk_1b5x1p4q191n
+    title: Parking lot
+    body: |-
+      Things that are not urgent:
+      - Recurring stickies
+      - Keyboard only mode
+      - Print stylesheet
+        [] check paper size
+      > Revisit after launch
+    color: lilac
+    pinned: false
+    createdAt: 2026-09-17T13:01:16.325Z
+    updatedAt: 2026-09-17T13:01:16.325Z
+createdAt: 2026-09-17T13:01:16.325Z
